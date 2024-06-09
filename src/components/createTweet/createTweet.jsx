@@ -8,7 +8,7 @@ export default function createTweet(props) {
   return (
     <div className='text-white createTweet '>
           <div className="flex firstCt" >
-      <img src={props.user?.profilePic} className='createTweetPic'></img>
+              <img src={props.user?.profilePic != "" ? props.user?.profilePic :"https://photosbull.com/wp-content/uploads/2024/05/no-dp_16.webp"} className='createTweetPic'></img>
           
         <textarea placeholder="What's happening?" className='createTweetInput' onChange={(e)=>{
             props.setTweet(e.target.value);

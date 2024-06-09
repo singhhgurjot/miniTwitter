@@ -1,10 +1,18 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import "./tweetComponent.css"
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 export default function tweetComponent(props) {
+    const [liked, setLiked] = useState(false);
+    const [likeCount,setLikeCount]=useState(0);
     console.log("User is " ,props.user);
+  useEffect(() => {
+    if (props.post.likes.includes(props.user)) {
+      setLiked(true);
+    }
+  }, [props.post.likes, props.user]);
   return (
     <div className='tweet'>
       <div className='flex tweetTop'>
@@ -21,12 +29,16 @@ export default function tweetComponent(props) {
             <div className='flex mt-5 justify-between bottomBar'>
                 <div  style={{gap:"50px"}}className='flex '>
                     <div style={{gap:"8px"}}className='flex'>
-                              {props.post.likes.includes(props.user) ? <FavoriteBorderIcon style={{color:"red"}}onClick={() => {
+                {liked ? <FavoriteIcon style={{color:"red"}} onClick={() => {
+                                 setLiked(false);
+                                 setLikeCount(0);
                                   props.unlikePost(props.post._id);
-                              }}></FavoriteBorderIcon> : <FavoriteBorderIcon onClick={() => {
+                }}></FavoriteIcon> : <FavoriteBorderIcon onClick={() => {
+                                  setLikeCount(1);
+                                setLiked(true);
                                   props.likePost(props.post._id);
                               }}></FavoriteBorderIcon>}
-                           <p>{props.post?.likes.length}</p>
+                           <p>{props.post?.likes.length+likeCount}</p>
                           
                           </div>
                           <div className='flex' style={{ gap: "8px" }}>

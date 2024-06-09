@@ -89,7 +89,7 @@ export default function mainPage() {
         axios().post(`http://localhost:3000/api/tweets/like/${id}`).then((res) => {   
             console.log("Liked")
             if (res.status == 200) {
-                toast.success("Liked", { position: "top-right" })
+               
             }
             else {
                 toast.error("Error Liking", { position: "top-right" })
@@ -102,7 +102,7 @@ export default function mainPage() {
         axios().post(`http://localhost:3000/api/tweets/unlike/${id}`).then((res) => {
             console.log("Unliked")
             if (res.status == 200) {
-                toast.success("unliked", { position: "top-right" })
+                
             }
             else {
                 toast.error("Error unliking", { position: "top-right" })
@@ -117,7 +117,7 @@ export default function mainPage() {
       <MainNav selected={selected} setSelected={setSelected} user={user} setUser={setUser}/>
         <MainPageCenter likePost={likePost}posts={posts} setPosts={ setPosts} user={user} setUser={setUser} tweetType={tweetType} setTweetType={setTweetType}
         tweet={tweet}  unlikePost={unlikePost} handleSubmit={handleSubmit} setTweet={setTweet} tweetImage={tweetImage} setTweetImage={setTweetImage}/>
-        <MainPageRight/>
+        <MainPageRight user={user}/>
         <ToastContainer/>
     </div>
   )

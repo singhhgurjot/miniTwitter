@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{useState} from 'react'
 import "./mainPageNav.css"
 import HomeIcon from '@mui/icons-material/Home';
 import SearchIcon from '@mui/icons-material/Search';
@@ -10,6 +10,8 @@ import { Button } from '@mui/material';
 import dp from "../../assets/dp.jpeg"
 import { UserState } from '../../userContext.jsx';
 export default function mainPageNav(props){
+    const [selected, setSelected] = useState(0);
+
   return (
     <div style={{gap:'3%' ,paddingLeft:"5% "}}className='text-white mainNav font-epi text-xl flex flex-col justify-center '>
           <div style={{ gap: '5%', padding: "6px", width: "50%" }} className='flex items-center tabs '>
@@ -75,7 +77,7 @@ export default function mainPageNav(props){
 
         </div>
         <div style={{width:"70%",marginTop:"20px"}} className='flex items-center'>
-                  <img src={props.user?.profilePic} alt={""} className="imagee" />
+              <img src={props.user?.profilePic != "" ? props.user?.profilePic :"https://photosbull.com/wp-content/uploads/2024/05/no-dp_16.webp"} alt={""} className="imagee" />
                   <div style={{marginLeft:"5%"}}className='flex flex-col'>
                 <p className="text-sm ">{props.user?.name}</p>
                   <p style={{ color:"grey"}}className='text-sm '>@{props.user?.username}</p>

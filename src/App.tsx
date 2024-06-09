@@ -6,6 +6,7 @@ function App() {
   return (
     <>
      <Routes>
+        <Route path="/" Component={Login} />
       <Route path="/login" Component={Login} />
       <Route path="/signup" Component={Signup} />
       <Route path="/home" Component={Home}/>
