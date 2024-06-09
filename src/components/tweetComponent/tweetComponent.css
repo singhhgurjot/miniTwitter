@@ -1,11 +1,18 @@
 .tweet{
     width: 100%;
-    
+    heihgt:100%;
     padding: 2%;
+    padding-bottom: 0%;
 }
 .tweetTop{
     gap:2%
 }
 .nameuser{
     gap:0.5rem;
+}
+.bottomBar{
+min-width: 100%;
+}
+.topTweet{
+    width: 100%;
 }
