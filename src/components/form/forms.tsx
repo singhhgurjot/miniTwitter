@@ -12,7 +12,7 @@ import {
 export default function SignupFormDemo(props:any) {
     if(props.login){
     return (
-        <div className="mt-20 max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#151312] dark:bg-black">
+        <div  className="mt-20 max-w-md w-full rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#151312] dark:bg-black">
             <h2 className="font-bold text-xl text-white dark:text-neutral-200">
                 Welcome back to Chirp!
             </h2>
@@ -52,7 +52,7 @@ export default function SignupFormDemo(props:any) {
 }
 else{
     return (
-        <div className="mt-5 max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#151312] ">
+        <div   className=" mt-5 max-w-md rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-[#151312] ">
             <h2 className="font-bold text-xl text-white dark:text-neutral-200">
                 Welcome to Chirp!
             </h2>

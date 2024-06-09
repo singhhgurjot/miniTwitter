@@ -1,3 +1,4 @@
+"use client";
 import { WavyBackground } from "../../components/wavyBackground/wavyBackground"
 import Form from "../../components/form/forms.tsx"
 import Navbar from "../../components/navbar/navbar.tsx"
@@ -5,6 +6,7 @@ import { useState } from "react"
 import  {ToastContainer ,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom"
+import { FlipWords } from "../../components/flipWords/flipWords.tsx";
 import axios from 'axios'
 export default function login() {
     const navigate=useNavigate();
@@ -37,13 +39,23 @@ export default function login() {
         
         }   )
     };
+    const words = ["Expressing", "Transforming", "Discovering"];
   return (
     <div >
-       
-      <WavyBackground className="max-w-4xl h-screen mx-auto pb-40 ">
+       <WavyBackground className="font-epi">
+        
               <Navbar />
+              <div style={{paddingLeft:"10%", paddingRight:"10% "}}className="flex w-screen items-center justify-between">
+                 <div>
+                      <div className="text-6xl mx-auto font-normal text-neutral-600 dark:text-neutral-400   ">
+                          <span className="text-white">Start</span>
+                          <FlipWords words={words} /> <br />
+                          <span className="text-white">With Chirp</span>
+                      </div>
+                 </div>
         <Form login={true} handleSubmit={handleSubmit} username={username} password={password} setUsername={setUsername} setPassword={setPassword}/>
-      </WavyBackground>
+              </div>
+          </WavyBackground>
       <ToastContainer/>
       </div>
 

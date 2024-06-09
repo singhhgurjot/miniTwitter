@@ -1,30 +1,15 @@
-import {useState} from 'react'
-import axios from 'axios';
+import React from 'react'
+import "./mainPage.css"
+import MainNav from "../../components/mainPageNav/mainPageNav"
+import MainPageCenter from "../../components/mainPageCenter/mainPageCenter"
+import MainPageRight from "../../components/mainPageRight/mainPageRight"
 export default function mainPage() {
-        const [text, setText] = useState('Sample text222');
-        const [image, setImage] = useState("");
-        const submitImage = () => {
-const data= new FormData();
-data.append('image', image);
-data.append('userId',"66640dc530f3062c73b01c06")
-
-            axios.post("http://localhost:3000/api/users/uploadProfilePicture",data).then((res)=>{   
-                    console.log(res.data);
-             }).catch((err)=>{   
-                    console.log(err);
-             });
-            }
-        return (
-        <div>
-            <input type="file" onChange={(e)=>{
-                if(e.target.files != null && e.target.files[0]!=null) {setImage(e.target.files[0])};
-            }}></input>
-            <button onClick={()=>{
-                console.log(image);
-                submitImage();
-            }}>Click me</button>
-        </div>
-        
-    )
-
+  return (
+    <div className='min-h-screen min-v-screen bg flex justify-between'>
+       
+      <MainNav/>
+        <MainPageCenter/>
+        <MainPageRight/>
+    </div>
+  )
 }

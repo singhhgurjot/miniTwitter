@@ -6,6 +6,8 @@ import { ToastContainer, toast } from "react-toastify"
 import axios from "axios"
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom"
+
+import { FlipWords } from "../../components/flipWords/flipWords.tsx";
 export default function signup() {
     const navigate=useNavigate();
     const [username, setUsername] = useState("")
@@ -42,11 +44,24 @@ export default function signup() {
 
         })
     };
+    const words = ["Expressing", "Transforming", "Discovering"];
     return (
-        <WavyBackground className="max-w-4xl h-screen mx-auto pb-40 ">
-            <Navbar />
-            <Form handleSubmit={handleSubmit} email={email} setEmail={setEmail} username={username} password={password} name={name} setName={setName} setUsername={setUsername} setPassword={setPassword} />
-        <ToastContainer/>
-        </WavyBackground>
+        <div >
+            <WavyBackground className="font-epi">
+
+                <Navbar />
+                <div style={{ paddingLeft: "10%", paddingRight: "10% " }} className="flex w-screen items-center justify-between">
+                    <div>
+                        <div className="text-6xl mx-auto font-normal text-neutral-600 dark:text-neutral-400   ">
+                            <span className="text-white">Start</span>
+                            <FlipWords words={words} /> <br />
+                            <span className="text-white">With Chirp</span>
+                        </div>
+                    </div>
+                    <Form handleSubmit={handleSubmit} email={email} setEmail={setEmail} username={username} password={password} name={name} setName={setName} setUsername={setUsername} setPassword={setPassword} />
+                </div>
+            </WavyBackground>
+            <ToastContainer />
+        </div>
     )
 }

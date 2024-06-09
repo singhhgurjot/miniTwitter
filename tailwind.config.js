@@ -1,5 +1,4 @@
 const defaultTheme = require("tailwindcss/defaultTheme");
-
 const colors = require("tailwindcss/colors");
 const {
   default: flattenColorPalette,
@@ -10,14 +9,32 @@ module.exports = {
   content: ["./src/**/*.{ts,tsx}"],
   darkMode: "class",
   theme: {
-    // rest of the code
     extend: {
+      animation: {
+        aurora: "aurora 60s linear infinite",
+      },
+      keyframes: {
+        aurora: {
+          from: {
+            backgroundPosition: "50% 50%, 50% 50%",
+          },
+          to: {
+            backgroundPosition: "350% 50%, 350% 50%",
+          },
+        },
+      },
       boxShadow: {
         input: `0px 2px 3px -1px rgba(0,0,0,0.1), 0px 1px 0px 0px rgba(25,28,33,0.02), 0px 0px 0px 1px rgba(25,28,33,0.08)`,
       },
+      fontFamily: {
+        epi: ["Epilogue", "sans-serif"],
+      },
+      textShadow: {
+        white: "0 0 10px rgba(255, 255, 255, 0.75)",
+      },
     },
   },
-  plugins: [addVariablesForColors],
+  plugins: [addVariablesForColors, addUtilitiesToTailwind],
 };
 
 function addVariablesForColors({ addBase, theme }) {
@@ -28,5 +45,13 @@ function addVariablesForColors({ addBase, theme }) {
 
   addBase({
     ":root": newVars,
+  });
+}
+function addUtilitiesToTailwind({ addUtilities }) {
+  addUtilities({
+    ".text-shadow-white": {
+      textShadow: "0 0 10px rgba(255, 255, 255, 0.75)",
+      color: "white",
+    },
   });
 }
