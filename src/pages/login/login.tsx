@@ -7,14 +7,17 @@ import  {ToastContainer ,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from "react-router-dom"
 import { FlipWords } from "../../components/flipWords/flipWords.tsx";
-import axios from 'axios'
+import axios2 from '../../../axios.js'
+import axios from "axios";
+import { UserState } from '../../userContext.jsx';
 export default function login() {
+    const {user,setUser}=UserState();
     const navigate=useNavigate();
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log(username, password);
+    
         if(!username || !password || username.trim()==='' || password.trim()===''){
             return toast.error('Please fill all fields');
         }
@@ -29,6 +32,12 @@ export default function login() {
             }
             else{
             localStorage.setItem('token',res.data.token);
+                axios2().get("http://localhost:3000/api/users/getOwnProfile").then((res) => {
+                    setUser(res.data.user);
+                    console.log(res.data.user);
+                }).catch((err) => {
+                    console.log(err);
+                })
                 toast.success('Login Successful');
                 navigate("/home");
 

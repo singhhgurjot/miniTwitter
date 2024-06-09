@@ -1,0 +1,16 @@
+.mpCenter{
+    height: 100vh;
+    background-color: black;
+    width: 50%;
+box-shadow: 0 0 1px white;
+overflow-y: scroll;
+   
+    scrollbar-width: none;
+  
+    -ms-overflow-style: none;
+
+}
+.mpCenter::-webkit-scrollbar {
+    display: none;
+
+}

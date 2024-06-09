@@ -1,0 +1,11 @@
+.tweet{
+    width: 100%;
+    
+    padding: 2%;
+}
+.tweetTop{
+    gap:2%
+}
+.nameuser{
+    gap:0.5rem;
+}

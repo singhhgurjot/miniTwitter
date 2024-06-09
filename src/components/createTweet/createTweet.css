@@ -1,0 +1,33 @@
+.createTweet{
+    
+  
+    
+    box-shadow: 0 0 1px white;
+    align-items: center;
+    padding: 2%;
+}
+.createTweetPic{
+    border-radius: 50%;
+    height: 50px;
+    width:50px;
+
+}
+.fileInput{
+    margin-left: 50px;
+    cursor: pointer;
+}
+.firstCt{
+gap: 10px;
+}
+.secondCt{
+ width: 100%;
+
+}
+.createTweetInput{
+    width: 100%;
+    resize: none;
+    background-color: transparent;
+    outline: none;
+    font-size: large;
+    
+}

@@ -10,6 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "@fontsource/roboto": "^5.0.13",
+    "@mui/icons-material": "^5.15.19",
+    "@mui/material": "^5.15.19",
+    "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@radix-ui/react-label": "^2.0.2",
     "@tabler/icons-react": "^3.5.0",
     "axios": "^1.7.2",
@@ -20,6 +26,7 @@
     "react-router-dom": "^6.23.1",
     "react-toastify": "^10.0.5",
     "simplex-noise": "^4.0.1",
+    "styled-components": "^6.1.11",
     "svelte-motion": "^0.12.2",
     "tailwind-merge": "^2.3.0"
   },

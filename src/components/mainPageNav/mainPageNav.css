@@ -1,5 +1,31 @@
 .mainNav{
     min-height: 100%;
-    background-color: red;
-    min-width: 30%;
+    background-color: black;
+    min-width: 26%;
+   overflow-y: hidden;
+}
+@media (max-width: 768px) {
+    .tab-name {
+        display: none;
+    }
+    .navButton{
+        border-radius: '50%'; width: '100px'; height: '100px' 
+    }
+
+}
+.tabs{
+cursor: pointer;
+}
+.tabs:hover{
+    background-color: #1a1a1a;
+    color: white;
+
+    border-radius: 100px;
+    padding: 10px;
+;
+}
+.imagee{
+    border-radius: 50%;
+    height: 45px;
+    width:50px;
 }
