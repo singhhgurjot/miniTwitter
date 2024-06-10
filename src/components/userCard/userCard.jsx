@@ -3,14 +3,18 @@ import React, { useEffect ,useState} from 'react'
 
 export default function userCard(props) {
     console.log("User Card" ,props.currentUser);
-
+    console.log("Logged in User",props.user);
     const [isFollower,setIsFollower]=useState(false);
     const [user,setUser]=useState(null);
     useEffect(() => {
-        if(props.user?.following.includes(props.currentUser._id)){
+        if(props.currentUser?.followers.includes(props.user._id)){
             console.log("Is Follower");
             setIsFollower(true);
         }
+        else{
+          console.log("Not Follower")
+        }
+      
     },[])
   return (
     <div className='userCard mt-5'>
@@ -22,11 +26,11 @@ export default function userCard(props) {
                   <p style={{ fontSize: "15px", color:"#9c958d"}}className='font-sm'>@{props.currentUser?.username}</p>
               </div>
               </div>
-              { props.user?.following.includes(props.currentUser._id) && isFollower ?
+              { isFollower ?
               <button style={{backgroundColor:"", width:"20%", outline:"1px solid white", padding:"8px" ,borderRadius:"20px"}} onClick={()=>{
                 setIsFollower(false);
                 props.unfollowUser(props.currentUser._id);
-                
+            
               }}>Unfollow</button>:
                   <button style={{ backgroundColor: "", width: "20%", outline: "1px solid white", padding: "8px", borderRadius: "20px" }} onClick={ ()=>{
                         setIsFollower(true);
