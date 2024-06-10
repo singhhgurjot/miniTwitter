@@ -12,7 +12,7 @@ import axios from "axios";
 
 
 export default function login() {
-   
+    console.log("Inside Login",import.meta.env.VITE_API_BASE_URL);
     const navigate=useNavigate();
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
