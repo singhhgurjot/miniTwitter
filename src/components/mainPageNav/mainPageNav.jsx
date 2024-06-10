@@ -9,73 +9,77 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import { Button } from '@mui/material';
 import dp from "../../assets/dp.jpeg"
 import { UserState } from '../../userContext.jsx';
+import axios from '../../../axios.js';
+import { useNavigate } from 'react-router-dom';
 export default function mainPageNav(props){
+    const navigate=useNavigate();
     const [selected, setSelected] = useState(0);
+
+    const navItems = [
+        { id: 0, icon: <HomeIcon className={`nav-icon ${selected === 0 ? 'icon-selected' : ''}`} />, label: 'Home',onClick:()=>{
+            onHome();
+        } },
+        { id: 2, icon: <PersonIcon className={`nav-icon ${selected === 2 ? 'icon-selected' : ''}`} />, label: 'Profile', onClick: () => { onProfile() } } ,
+        { id: 3, icon: <BookmarkIcon className={`nav-icon ${selected === 3 ? 'icon-selected' : ''}`} />, label: 'Bookmarks', onClick: () => { onBookmarks() }  },
+        { id: 4, icon: <LogoutIcon className={`nav-icon ${selected === 4 ? 'icon-selected' : ''}`} />, label: 'Logout',onClick:()=>{
+                onLogout()
+        } },
+    ];
+        const onBookmarks=()=>{
+            setSelected(3);
+            props.setIsProfile(false);
+            props.setProfileId(null);
+            axios().get("http://localhost:3000/api/tweets/getbookmarks").then((res)=>{ 
+                console.log("Bookmarks",res.data.bookmarks);
+                props.setPosts(res.data.bookmarks);
+            })
+        }
+        const onHome=()=>{
+            setSelected(0);
+            props.setIsProfile(false);
+            props.setProfileId(null);
+            props.setIs
+            axios().get("http://localhost:3000/api/tweets/getFollowersTweets").then((res) => {
+                console.log("POSTS LIST", res.data.tweets);
+                props.setPosts(res.data.tweets);
+            })
+        }
+     
+        const onProfile=()=>{
+          
+            props.setIsProfile(true);
+            props.setProfileId(props.user._id);
+setSelected(2);
+        }
+        const onLogout=()=>{
+            setSelected(4);
+            localStorage.removeItem("token");
+            navigate("/login");
+            
+        }
 
   return (
     <div style={{gap:'3%' ,paddingLeft:"5% "}}className='text-white mainNav font-epi text-xl flex flex-col justify-center '>
-          <div style={{ gap: '5%', padding: "6px", width: "50%" }} className='flex items-center tabs '>
-            <div>
-      <HomeIcon sx={{fontSize:35}}/>
+      
+        
+        
+          {navItems.map((item) => (
+              <div
+                  key={item.id}
+                  
+                  style={{ gap: '5%', padding: "6px", width: "50%" }}
+                  className={`flex items-center tabs ${selected === item.id ? 'selected' : ''}`}
+                  onClick={item.onClick}
+              >
+                  <div>{item.icon}</div>
+                  <div>
+                      <p className={`mt-2 text-lg tab-name ${selected === item.id ? 'text-selected' : ''}`}>
+                          {item.label}
+                      </p>
+                  </div>
               </div>
-              <div>
-                  <p className=' mt-2 text-lg tab-name'>Home</p>
-              </div>
-             
-     
-          </div>
-          <div style={{ gap: '5%', padding:"6px", width:"50%"}} className='flex items-center tabs'>
-              <div>
-                  <SearchIcon sx={{ fontSize: 35 }} />
-              </div>
-              <div>
-                  <p className=' mt-2 text-lg tab-name'>Explore</p>
-              </div>
-
-
-          </div>
-          {/* <div style={{ gap: '5%' }} className='flex items-center'>
-              <div>
-                  <NotificationsIcon sx={{ fontSize: 35 }} />
-              </div>
-              <div>
-                  <p className=' mt-2 text-lg'>Notifications</p>
-              </div>
-
-
-          </div> */}
-          <div style={{ gap: '5%', padding: "6px", width: "50%" }} className='flex tabs items-center'>
-              <div>
-                  <PersonIcon sx={{ fontSize: 35 }} />
-              </div>
-              <div>
-                  <p className=' mt-2 text-lg tab-name'>Profile</p>
-              </div>
-
-
-          </div>
-          <div style={{ gap: '5%', padding: "6px", width: "60%" }} className='flex tabs items-center'>
-              <div>
-                  <BookmarkIcon sx={{ fontSize: 35 }} />
-              </div>
-              <div>
-                  <p className=' mt-2 text-lg tab-name'>Bookmarks</p>
-              </div>
-
-
-          </div>
-          <div style={{ gap: '5%', padding: "6px", width: "50%" }} className='flex tabs items-center'>
-              <div>
-                  <LogoutIcon sx={{ fontSize: 35 }} />
-              </div>
-              <div>
-                  <p className=' mt-2 text-lg tab-name'>Logout</p>
-              </div>
-          </div>
-        <div>
-              <button style={{ backgroundColor:"#1d9bf0" ,paddingLeft:"30%" ,paddingRight:"30%" ,borderRadius:"30px",paddingTop:"15px",paddingBottom:"15px"}} className=' navButton'><p className="tab-name">Post</p></button>
-
-        </div>
+          ))}
+       
         <div style={{width:"70%",marginTop:"20px"}} className='flex items-center'>
               <img src={props.user?.profilePic != "" ? props.user?.profilePic :"https://photosbull.com/wp-content/uploads/2024/05/no-dp_16.webp"} alt={""} className="imagee" />
                   <div style={{marginLeft:"5%"}}className='flex flex-col'>

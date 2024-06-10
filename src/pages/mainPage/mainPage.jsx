@@ -5,6 +5,7 @@ import MainPageCenter from "../../components/mainPageCenter/mainPageCenter"
 import MainPageRight from "../../components/mainPageRight/mainPageRight"
 import axios from "../../../axios.js"
 import axios2 from "axios"
+import ProfilePage from '../profilePage/profilePage.jsx'
 import { toast ,ToastContainer} from 'react-toastify';
 export default function mainPage() {
     const [user,setUser]=useState(null);
@@ -12,6 +13,8 @@ export default function mainPage() {
     const [tweetImage,setTweetImage]=useState(null);
     const [tweetType,setTweetType]=useState("text");
     const [formReset, setFormReset] = useState(false);
+    const [isProfile,setIsProfile]=useState(false);
+    const [profileId,setProfileId]=useState(null);
     const [posts,setPosts]=useState([]);
     const handleSubmit=()=>{
 
@@ -70,7 +73,7 @@ export default function mainPage() {
         }
     }
     useEffect(() => {
-        axios().get("http://localhost:3000/api/tweets/getFollowersTweets").then((res) => {
+        axios().get("http://localhost:3000/api/tweets/getAllTweets").then((res) => {
             console.log("POSTS LIST", res.data.tweets);
             setPosts(res.data.tweets);
         })
@@ -114,10 +117,12 @@ export default function mainPage() {
   return (
     <div className='min-h-screen min-v-screen bg flex justify-evenly'>
 
-      <MainNav selected={selected} setSelected={setSelected} user={user} setUser={setUser}/>
-        <MainPageCenter likePost={likePost}posts={posts} setPosts={ setPosts} user={user} setUser={setUser} tweetType={tweetType} setTweetType={setTweetType}
-        tweet={tweet}  unlikePost={unlikePost} handleSubmit={handleSubmit} setTweet={setTweet} tweetImage={tweetImage} setTweetImage={setTweetImage}/>
+      <MainNav isProfile={isProfile} setIsProfile={setIsProfile} profileId={profileId} setProfileId={setProfileId}selected={selected} setSelected={setSelected} user={user} setUser={setUser} posts={posts} setPosts={setPosts}/>
+        {!isProfile?<MainPageCenter profileId={profileId} setProfileId={setProfileId} isProfile={isProfile} setIsProfile={setIsProfile} likePost={likePost}posts={posts} setPosts={ setPosts} user={user} setUser={setUser} tweetType={tweetType} setTweetType={setTweetType}
+        tweet={tweet}  unlikePost={unlikePost} handleSubmit={handleSubmit} setTweet={setTweet} tweetImage={tweetImage} setTweetImage={setTweetImage}/> :
+              <ProfilePage likePost={likePost} unlikePost={unlikePost}  profileId={profileId} user={user} ></ProfilePage>}
         <MainPageRight user={user}/>
+
         <ToastContainer/>
     </div>
   )

@@ -29,3 +29,12 @@ cursor: pointer;
     height: 50px;
     width:50px;
 }
+.tabs.selected .tab-name {
+    color: #1d9bf0;
+ 
+}
+
+.icon-selected {
+    color: #1d9bf0 ;
+
+}
