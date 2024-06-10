@@ -49,8 +49,8 @@ export default function tweetComponent(props) {
     const [bookmarked,setBookmarked]=useState(false);
     
   useEffect(() => {
-    setTweet(props.post.content);
-    if (props.post?.likes?.includes(props.user._id)) {
+    setTweet(props.post?.content);
+    if (props.post?.likes?.includes(props.user?._id)) {
       setLiked(true);
     }
     if(props.user.bookmarks?.includes(props.post?._id)){
@@ -58,7 +58,7 @@ export default function tweetComponent(props) {
     }
   }, [props.post?.likes, props.user]);
   const openProfile = () => {
-    props.setProfileId(props.post.userId._id);
+    props.setProfileId(props.post?.userId?._id);
     props.setIsProfile(true);
   }
   function handleUpdateTweet(){
