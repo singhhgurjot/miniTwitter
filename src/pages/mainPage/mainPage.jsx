@@ -114,9 +114,12 @@ export default function mainPage() {
             console.log(err)
         })
     }
+    const [isLoading,setIsLoading]=useState(true);
   return (
+    
+    <div>
     <div className='min-h-screen min-v-screen bg flex justify-evenly'>
-
+          
       <MainNav isProfile={isProfile} setIsProfile={setIsProfile} profileId={profileId} setProfileId={setProfileId}selected={selected} setSelected={setSelected} user={user} setUser={setUser} posts={posts} setPosts={setPosts}/>
         {!isProfile?<MainPageCenter profileId={profileId} setProfileId={setProfileId} isProfile={isProfile} setIsProfile={setIsProfile} likePost={likePost}posts={posts} setPosts={ setPosts} user={user} setUser={setUser} tweetType={tweetType} setTweetType={setTweetType}
         tweet={tweet}  unlikePost={unlikePost} handleSubmit={handleSubmit} setTweet={setTweet} tweetImage={tweetImage} setTweetImage={setTweetImage}/> :
@@ -124,6 +127,11 @@ export default function mainPage() {
         <MainPageRight user={user}/>
 
         <ToastContainer/>
+          
+        
+
     </div>
+      </div>
+    
   )
 }

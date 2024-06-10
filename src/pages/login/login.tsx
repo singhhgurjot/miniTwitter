@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom"
 import { FlipWords } from "../../components/flipWords/flipWords.tsx";
 import axios2 from '../../../axios.js'
 import axios from "axios";
+import rootShouldForwardProp from "@mui/material/styles/rootShouldForwardProp";
 
 export default function login() {
    
@@ -32,6 +33,7 @@ export default function login() {
             }
             else{
             localStorage.setItem('token',res.data.token);
+            console.log(res.data.token);
                 axios2().get(`${import.meta.env.VITE_API_BASE_URL}/users/getOwnProfile`).then((res) => {
                     
                     console.log(res.data.user);
