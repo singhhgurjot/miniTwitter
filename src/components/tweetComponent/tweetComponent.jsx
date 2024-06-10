@@ -67,7 +67,7 @@ export default function tweetComponent(props) {
     
   }
   function handleUpdateTweet2() {
-    axios().patch(`http://localhost:3000/api/tweets/update/${props.post._id}`,{text:tweet}).then((res)=>{
+    axios().patch(`${import.meta.env.VITE_API_BASE_URL}/tweets/update/${props.post._id}`,{text:tweet}).then((res)=>{
       if(res.status==200){
         toast.success("Tweet Updated",{position:"top-right"});
         closeModal();
@@ -82,7 +82,7 @@ export default function tweetComponent(props) {
   }
   function handleDeleteTweet(){
     console.log("in delete tweet");
-    axios().delete(`http://localhost:3000/api/tweets/delete/${props.post._id}`).then((res)=>{
+    axios().delete(`${import.meta.env.VITE_API_BASE_URL}/tweets/delete/${props.post._id}`).then((res)=>{
       if(res.status==200){
         toast.success("Tweet Deleted",{position:"top-right"});
         
@@ -113,7 +113,7 @@ export default function tweetComponent(props) {
                   </div>
           
           <p>{props.post.content}</p>
-                  {props.post?.tweetType=='image'?<img style={{ height:"400px", width: "800px" ,marginTop:"10px" , borderRadius:"2%" }} src='https://cdn.pixabay.com/photo/2023/08/02/18/21/yoga-8165759_640.jpg'></img>:null}
+                  {props.post?.tweetType=='image'?<img style={{ height:"400px", width: "800px" ,marginTop:"10px" , borderRadius:"2%" }} src={props.post?.contentUrl}></img>:null}
             <div className='flex mt-5 justify-between bottomBar'>
                 <div  style={{gap:"50px"}}className='flex '>
                     <div style={{gap:"8px"}}className='flex'>
@@ -141,14 +141,14 @@ export default function tweetComponent(props) {
                       {!bookmarked?
             <BookmarkBorderIcon onClick={()=>{
 
-              axios().post(`http://localhost:3000/api/tweets/bookmark/${props.post?._id}`).then((res)=>{
+              axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/bookmark/${props.post?._id}`).then((res)=>{
                 console.log("Bookmarked");
                 console.log(res.data);
 
               setBookmarked(true);
             })}}></BookmarkBorderIcon>:
               <BookmarkIcon style={{ color:"#1d9bf0"}} onClick={()=>{
-                axios().post(`http://localhost:3000/api/tweets/unbookmark/${props.post?._id}`).then((res)=>{
+                axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/unbookmark/${props.post?._id}`).then((res)=>{
                   console.log("Unbookmarked");
                   console.log(res.data);
                   setBookmarked(false);

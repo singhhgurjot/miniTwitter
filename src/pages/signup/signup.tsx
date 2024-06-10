@@ -21,7 +21,7 @@ export default function signup() {
         if (!username || !password || username.trim() === '' || password.trim() === '') {
             return toast.error('Please fill all fields');
         }
-        axios.post("http://localhost:3000/api/users/register", { username, password,name,email }, {
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/register`, { username, password,name,email }, {
             validateStatus: function (status) {
                 return status >= 200 && status < 500;
             }

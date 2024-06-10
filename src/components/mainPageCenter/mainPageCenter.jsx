@@ -17,7 +17,7 @@ export default function mainPageCenter(props) {
           <div
             className={`tab ${activeTab === 'forYou' ? 'active' : ''}`}
             onClick={() => {
-              axios().get("http://localhost:3000/api/tweets/getAllTweets").then((res) => {
+              axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getAllTweets`).then((res) => {
                 props.setPosts(res.data.tweets);
               })
               setActiveTab('forYou')}}
@@ -27,7 +27,7 @@ export default function mainPageCenter(props) {
           <div
             className={`tab ${activeTab === 'following' ? 'active' : ''}`}
             onClick={() => {
-              axios().get("http://localhost:3000/api/tweets/getFollowersTweets").then((res) => {
+              axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getFollowersTweets`).then((res) => {
                 props.setPosts(res.data.tweets);
               })
               setActiveTab('following')}

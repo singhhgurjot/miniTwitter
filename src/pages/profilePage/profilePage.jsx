@@ -46,7 +46,7 @@ const [bio,setBio]=useState("");
     }
 
     useEffect(() => {
-        axios().get(`http://localhost:3000/api/users/profile/${props.profileId}`).then((res) => {
+        axios().get(`${import.meta.env.VITE_API_BASE_URL}/users/profile/${props.profileId}`).then((res) => {
   
             setUser(res.data.user);
             setPosts(res.data.user.tweets);
@@ -55,7 +55,7 @@ const [bio,setBio]=useState("");
         }).catch((err) => { 
             console.log(err);
         })
-        axios().get(`http://localhost:3000/api/tweets/getTweets/${props.profileId}`).then((res) => {
+        axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getTweets/${props.profileId}`).then((res) => {
           console.log("Posts", res.data.tweets);
             setPosts(res.data.tweets);
         })
@@ -64,7 +64,7 @@ const [bio,setBio]=useState("");
     },[])
     const handleUpdate=()=>{
         console.log(name, bio);
-        axios().post(`http://localhost:3000/api/users/updateProfile`,{name:name,bio:bio}).then((res)=>{
+        axios().post(`${import.meta.env.VITE_API_BASE_URL}/users/updateProfile`,{name:name,bio:bio}).then((res)=>{
             toast.success("Profile Updated",{position:"top-right"});
         })
         closeModal();

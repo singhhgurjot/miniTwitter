@@ -26,7 +26,7 @@ export default function mainPage() {
             data.append("image",tweetImage);
             console.log("With Image");
           
-            axios().post("http://localhost:3000/api/tweets/create", data, {
+            axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/create`, data, {
                 validateStatus: function (status) {
                     return status >= 200 && status < 500;
                 }
@@ -51,7 +51,7 @@ export default function mainPage() {
         else{
             if(tweet.trim()==="") return toast.error("Tweet cannot be empty",{position:"top-right"});
             else{
-            axios().post("http://localhost:3000/api/tweets/create", { text: tweet, type: tweetType }, {
+            axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/create`, { text: tweet, type: tweetType }, {
                 validateStatus: function (status) {
                     return status >= 200 && status < 500;
                 }
@@ -73,11 +73,11 @@ export default function mainPage() {
         }
     }
     useEffect(() => {
-        axios().get("http://localhost:3000/api/tweets/getAllTweets").then((res) => {
+        axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getAllTweets`).then((res) => {
             console.log("POSTS LIST", res.data.tweets);
             setPosts(res.data.tweets);
         })
-        axios().get("http://localhost:3000/api/users/getOwnProfile").then((res)=>{
+        axios().get(`${import.meta.env.VITE_API_BASE_URL}/users/getOwnProfile`).then((res)=>{
             setUser(res.data.user)
             console.log(res.data)
         }).catch((err)=>{
@@ -89,7 +89,7 @@ export default function mainPage() {
        
     })
     function likePost(id){
-        axios().post(`http://localhost:3000/api/tweets/like/${id}`).then((res) => {   
+        axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/like/${id}`).then((res) => {   
             console.log("Liked")
             if (res.status == 200) {
                
@@ -102,7 +102,7 @@ export default function mainPage() {
         })
     }
     function unlikePost(id) {
-        axios().post(`http://localhost:3000/api/tweets/unlike/${id}`).then((res) => {
+        axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/unlike/${id}`).then((res) => {
             console.log("Unliked")
             if (res.status == 200) {
                 

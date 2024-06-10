@@ -12,7 +12,7 @@ export default function mainPageRight(props) {
   const handleSearch=()=>{
 
     if(searchField.trim()==="") return; 
-    axios().post("http://localhost:3000/api/users/search",{query:searchField}).then((res)=>{
+    axios().post(`${import.meta.env.VITE_API_BASE_URL}/users/search`,{query:searchField}).then((res)=>{
       setSearchResults(res.data.users);
       console.log("New users",res.data.users);
       setDiscard(!discard);
@@ -21,7 +21,7 @@ export default function mainPageRight(props) {
     })
   }
   const followUser =(id)=>{
-    axios().post(`http://localhost:3000/api/users/follow/${id}`).then((res)=>{
+    axios().post(`${import.meta.env.VITE_API_BASE_URL}/users/follow/${id}`).then((res)=>{
       toast.success("Followed User",{position:"top-right"})
       console.log(res.data);
     }).catch((err)=>{
@@ -29,7 +29,7 @@ export default function mainPageRight(props) {
     })
   }
   const unfollowUser = (id) => {
-    axios().post(`http://localhost:3000/api/users/unfollow/${id}`).then((res) => {
+    axios().post(`${import.meta.env.VITE_API_BASE_URL}/users/unfollow/${id}`).then((res) => {
       toast.success("Unfollowed User", { position: "top-right" })
       console.log(res.data);
     }).catch((err) => {

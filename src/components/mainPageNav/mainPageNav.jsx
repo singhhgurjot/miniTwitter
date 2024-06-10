@@ -29,7 +29,7 @@ export default function mainPageNav(props){
             setSelected(3);
             props.setIsProfile(false);
             props.setProfileId(null);
-            axios().get("http://localhost:3000/api/tweets/getbookmarks").then((res)=>{ 
+            axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getbookmarks`).then((res)=>{ 
                 console.log("Bookmarks",res.data.bookmarks);
                 props.setPosts(res.data.bookmarks);
             })
@@ -39,7 +39,7 @@ export default function mainPageNav(props){
             props.setIsProfile(false);
             props.setProfileId(null);
             props.setIs
-            axios().get("http://localhost:3000/api/tweets/getFollowersTweets").then((res) => {
+            axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getFollowersTweets`).then((res) => {
                 console.log("POSTS LIST", res.data.tweets);
                 props.setPosts(res.data.tweets);
             })
@@ -80,7 +80,9 @@ setSelected(2);
               </div>
           ))}
        
-        <div style={{width:"70%",marginTop:"20px"}} className='flex items-center'>
+        <div style={{width:"70%",marginTop:"20px" ,cursor:"pointer"}} className='flex items-center' onClick={()=>{
+              onProfile();
+        }}>
               <img src={props.user?.profilePic != "" ? props.user?.profilePic :"https://photosbull.com/wp-content/uploads/2024/05/no-dp_16.webp"} alt={""} className="imagee" />
                   <div style={{marginLeft:"5%"}}className='flex flex-col'>
                 <p className="text-sm ">{props.user?.name}</p>
