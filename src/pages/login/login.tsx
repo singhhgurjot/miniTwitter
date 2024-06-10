@@ -31,6 +31,7 @@ export default function login() {
             if(res.status==200)
                { 
                 console.log("Login Succesfull");
+                console.log(res);
             localStorage.setItem('token',res.data.token);
             console.log(res.data.token);
                 axios2().get(`${import.meta.env.VITE_API_BASE_URL}/users/getOwnProfile`).then((res) => {
