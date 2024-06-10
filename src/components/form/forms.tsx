@@ -3,11 +3,7 @@ import React from "react";
 import { Label } from "./label";
 import { Input } from "./input";
 import { cn } from "../../utils/cn";
-import {
-    IconBrandGithub,
-    IconBrandGoogle,
-    IconBrandOnlyfans,
-} from "@tabler/icons-react";
+
 
 export default function SignupFormDemo(props:any) {
     if(props.login){
