@@ -22,11 +22,8 @@ export default function login() {
         if(!username || !password || username.trim()==='' || password.trim()===''){
             return toast.error('Please fill all fields');
         }
-        axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/login`, { username, password }, {
-            validateStatus: function (status) {
-                return status >= 200 && status < 500;
-            }
-        }).then((res)=>{
+        axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/login`, { username, password }, 
+          ).then((res)=>{
             console.log(res)
             if(res.status==200)
                { 
