@@ -28,10 +28,9 @@ export default function login() {
             }
         }).then((res)=>{
             console.log(res)
-            if(res.status!==200){
-                return toast.error(res.data.message);
-            }
-            else{
+            if(res.status==200)
+               { 
+                console.log("Login Succesfull");
             localStorage.setItem('token',res.data.token);
             console.log(res.data.token);
                 axios2().get(`${import.meta.env.VITE_API_BASE_URL}/users/getOwnProfile`).then((res) => {
@@ -43,9 +42,14 @@ export default function login() {
                 toast.success('Login Successful');
                 navigate("/home");
 
-            }
+            
           
-        }).catch((err)=>{
+        }
+        else{
+            return toast.error(res.data.message);
+        }
+        }
+    ).catch((err)=>{
             console.log(err)
         
         }   )
