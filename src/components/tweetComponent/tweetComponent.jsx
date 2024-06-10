@@ -53,7 +53,7 @@ export default function tweetComponent(props) {
     if (props.post?.likes?.includes(props.user?._id)) {
       setLiked(true);
     }
-    if(props.user.bookmarks?.includes(props.post?._id)){
+    if(props.user?.bookmarks?.includes(props.post?._id)){
         setBookmarked(true);
     }
   }, [props.post?.likes, props.user]);
