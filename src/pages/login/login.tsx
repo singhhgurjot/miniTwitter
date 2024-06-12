@@ -16,11 +16,15 @@ export default function login() {
     const navigate=useNavigate();
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    const [isLoading,setIsLoading]=useState(false);
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setIsLoading(true);
     
         if(!username || !password || username.trim()==='' || password.trim()===''){
+            setIsLoading(false);
             return toast.error('Please fill all fields');
+           
         }
         axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/login`, { username, password },
             {
@@ -41,6 +45,8 @@ export default function login() {
                     console.log(res.data.user);
                 }).catch((err) => {
                     console.log(err);
+                }).finally(()=>{
+                    setIsLoading(false);
                 })
                 toast.success('Login Successful');
                 navigate("/home");
@@ -49,7 +55,9 @@ export default function login() {
           
         }
         else{
+            setIsLoading(false);
             return toast.error(res.data.message);
+
         }
         }
     ).catch((err)=>{
@@ -72,7 +80,7 @@ export default function login() {
                           <span className="text-white">With Chirp</span>
                       </div>
                  </div>
-        <Form login={true} handleSubmit={handleSubmit} username={username} password={password} setUsername={setUsername} setPassword={setPassword}/>
+        <Form isLoading={isLoading} login={true} handleSubmit={handleSubmit} username={username} password={password} setUsername={setUsername} setPassword={setPassword}/>
               </div>
           </WavyBackground>
       <ToastContainer/>

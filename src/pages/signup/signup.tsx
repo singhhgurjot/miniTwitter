@@ -14,11 +14,15 @@ export default function signup() {
     const [password, setPassword] = useState("")
     const [name,setName]=useState("")
     const [email,setEmail]=useState("")
+    const [isLoading,setIsLoading]=useState(false);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        setIsLoading(true);
         e.preventDefault();
+        
         console.log(username, password , name, email);
         if (!username || !password || username.trim() === '' || password.trim() === '') {
+            setIsLoading(false);
             return toast.error('Please fill all fields');
         }
         axios.post(`${import.meta.env.VITE_API_BASE_URL}/users/register`, { username, password,name,email }, {
@@ -28,6 +32,7 @@ export default function signup() {
         }).then((res) => {
             console.log(res)
             if (res.status !== 200) {
+                setIsLoading(false);
                 return toast.error(res.data.message);
             }
             else {
@@ -39,10 +44,13 @@ export default function signup() {
                 })
             }
 
-        }).catch((err) => {
+        }).catch((err) => { 
             console.log(err)
 
+        }).finally(()=>{
+            setIsLoading(false);
         })
+      
     };
     const words = ["Expressing", "Transforming", "Discovering"];
     return (
@@ -58,7 +66,7 @@ export default function signup() {
                             <span className="text-white">With Chirp</span>
                         </div>
                     </div>
-                    <Form handleSubmit={handleSubmit} email={email} setEmail={setEmail} username={username} password={password} name={name} setName={setName} setUsername={setUsername} setPassword={setPassword} />
+                    <Form isLoading={isLoading} handleSubmit={handleSubmit} email={email} setEmail={setEmail} username={username} password={password} name={name} setName={setName} setUsername={setUsername} setPassword={setPassword} />
                 </div>
             </WavyBackground>
             <ToastContainer />
