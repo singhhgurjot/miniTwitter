@@ -74,7 +74,7 @@ export default function mainPage() {
     }
     useEffect(() => {
         axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getAllTweets`).then((res) => {
-            console.log("POSTS LIST", res.data.tweets);
+            
             setPosts(res.data.tweets);
         })
         axios().get(`${import.meta.env.VITE_API_BASE_URL}/users/getOwnProfile`).then((res)=>{
@@ -123,7 +123,7 @@ export default function mainPage() {
       <MainNav isProfile={isProfile} setIsProfile={setIsProfile} profileId={profileId} setProfileId={setProfileId}selected={selected} setSelected={setSelected} user={user} setUser={setUser} posts={posts} setPosts={setPosts}/>
         {!isProfile?<MainPageCenter profileId={profileId} setProfileId={setProfileId} isProfile={isProfile} setIsProfile={setIsProfile} likePost={likePost}posts={posts} setPosts={ setPosts} user={user} setUser={setUser} tweetType={tweetType} setTweetType={setTweetType}
         tweet={tweet}  unlikePost={unlikePost} handleSubmit={handleSubmit} setTweet={setTweet} tweetImage={tweetImage} setTweetImage={setTweetImage}/> :
-              <ProfilePage likePost={likePost} unlikePost={unlikePost}  profileId={profileId} user={user} ></ProfilePage>}
+              <ProfilePage likePost={likePost} unlikePost={unlikePost}  profileId={profileId} user={user} setUser={setUser} ></ProfilePage>}
         <MainPageRight user={user}/>
 
         <ToastContainer/>

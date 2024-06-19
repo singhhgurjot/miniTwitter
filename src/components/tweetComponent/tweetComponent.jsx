@@ -1,5 +1,5 @@
-import React,{useState,useEffect} from 'react'
-import "./tweetComponent.css"
+import React, { useState, useEffect } from 'react';
+import "./tweetComponent.css";
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -7,10 +7,10 @@ import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import EditIcon from '@mui/icons-material/Edit';
 import axios from "../../../axios";
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ReactDOM from 'react-dom';
 import Modal from 'react-modal';
-import { ToastContainer, toast } from 'react-toastify'
-export default function tweetComponent(props) {
+import { ToastContainer, toast } from 'react-toastify';
+
+export default function TweetComponent(props) {
   const customStyles = {
     content: {
       top: '50%',
@@ -27,167 +27,174 @@ export default function tweetComponent(props) {
 
   Modal.setAppElement('#root');
 
-  const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [tweet, setTweet] = useState(props.post?.content || "");
+  const [likes, setLikes] = useState(props.post?.likes || []);
+  const [bookmarked, setBookmarked] = useState(props.user?.bookmarks?.includes(props.post?._id) || false);
 
-  function openModal() {
-    setIsOpen(true);
-  }
-
-  function afterOpenModal() {
-
-    
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  
-    const [liked, setLiked] = useState(false);
-    const [likeCount,setLikeCount]=useState(0);
-    const [tweet,setTweet]=useState("");
-    const [bookmarked,setBookmarked]=useState(false);
-    
   useEffect(() => {
-    setTweet(props.post?.content);
-    if (props.post?.likes?.includes(props.user?._id)) {
-      setLiked(true);
-    }
-    if(props.user?.bookmarks?.includes(props.post?._id)){
-        setBookmarked(true);
-    }
+    setLikes(props.post?.likes || []);
+    setBookmarked(props.user?.bookmarks?.includes(props.post?._id) || false);
   }, [props.post?.likes, props.user]);
-  const openProfile = () => {
-    props.setProfileId(props.post?.userId?._id);
-    props.setIsProfile(true);
-  }
-  function handleUpdateTweet(){
-  
-    openModal();
-    
-  }
-  function handleUpdateTweet2() {
-    axios().patch(`${import.meta.env.VITE_API_BASE_URL}/tweets/update/${props.post._id}`,{text:tweet}).then((res)=>{
-      if(res.status==200){
-        toast.success("Tweet Updated",{position:"top-right"});
-        closeModal();
-        window.location.reload();
-      }
-      else{
-        toast.success("Error Updating Tweet",{position:"top-right"});
 
-      }
-    })
+  const openModal = () => setIsOpen(true);
+  const closeModal = () => setIsOpen(false);
 
-  }
-  function handleDeleteTweet(){
-    console.log("in delete tweet");
-    axios().delete(`${import.meta.env.VITE_API_BASE_URL}/tweets/delete/${props.post._id}`).then((res)=>{
-      if(res.status==200){
-        toast.success("Tweet Deleted",{position:"top-right"});
+  const handleLike = async () => {
+    const isLiked = likes.includes(props.user?._id);
+    const updatedLikes = isLiked
+      ? likes.filter(id => id !== props.user._id)
+      : [...likes, props.user._id];
+
+    setLikes(updatedLikes);
+
+    try {
+      if (isLiked) {
+        await axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/unlike/${props.post._id}`);
+      } else {
+        await axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/like/${props.post._id}`);
+      }
+    } catch (error) {
+      // Revert state in case of error
+      setLikes(likes);
+      toast.error("Error updating like status", { position: "top-right" });
+    }
+  };
+
+  const handleBookmark = async () => {
+    const currentBookmarked = bookmarked;
+    setBookmarked(!currentBookmarked);
+    console.log("User when bookmarked",props.user);
+
+    try {
+      let updatedUser;
+      if (currentBookmarked) {
+        await axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/unbookmark/${props.post._id}`);
+        updatedUser = {
+          ...props.user,
+          bookmarks: props.user.bookmarks.filter(bookmark => bookmark !== props.post._id),
+        };
         
+      } else {
+        await axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/bookmark/${props.post._id}`);
+        updatedUser = {
+          ...props.user,
+          bookmarks: [...props.user.bookmarks, props.post._id],
+        };
+      }
+      props.setUser(updatedUser);
+    } catch (error) {
+      console.log(error);
+      setBookmarked(currentBookmarked); // Revert state in case of error
+      toast.error("Error updating bookmark status", { position: "top-right" });
+    }
+  };
+
+  const handleUpdateTweet = async () => {
+    try {
+      const response = await axios().patch(`${import.meta.env.VITE_API_BASE_URL}/tweets/update/${props.post._id}`, { text: tweet });
+      if (response.status === 200) {
+        toast.success("Tweet Updated", { position: "top-right" });
         closeModal();
-        window.location.reload();
+      } else {
+        toast.error("Error Updating Tweet", { position: "top-right" });
       }
-      else{
-        toast.success("Error Deleting Tweet",{position:"top-right"});
+    } catch (error) {
+      toast.error("Error Updating Tweet", { position: "top-right" });
+    }
+  };
 
+  const handleDeleteTweet = async () => {
+    try {
+      const response = await axios().delete(`${import.meta.env.VITE_API_BASE_URL}/tweets/delete/${props.post._id}`);
+      if (response.status === 200) {
+        toast.success("Tweet Deleted", { position: "top-right" });
+        closeModal();
+      } else {
+        toast.error("Error Deleting Tweet", { position: "top-right" });
       }
-    })
+    } catch (error) {
+      toast.error("Error Deleting Tweet", { position: "top-right" });
+    }
+  };
 
-  } 
   return (
     <div className='tweet'>
       <div className='flex tweetTop'>
-        
-        <img onClick={() => {
-          openProfile()
-        }}  src={props.post?.userId?.profilePic != "" ? props.post?.userId?.profilePic :"https://photosbull.com/wp-content/uploads/2024/05/no-dp_16.webp"} style={{height:"50px" ,width:"50px" ,borderRadius:"50%",cursor:"pointer"}}></img>
-      
-          <div className='topTweet'>
-          <div style={{cursor:"pointer"}}className='flex nameuser' onClick={() => {
-            openProfile()
-          }}>
-          <p className='font-bold '>{props.post?.userId?.name} </p>
-          <p  style={{color:"grey"}}className=''>@{props.post.userId?.username}</p>
-                  </div>
-          
+        <img
+          onClick={() => props.setProfileId(props.post?.userId?._id)}
+          src={props.post?.userId?.profilePic || "https://photosbull.com/wp-content/uploads/2024/05/no-dp_16.webp"}
+          style={{ height: "50px", width: "50px", borderRadius: "50%", cursor: "pointer" }}
+        />
+        <div className='topTweet'>
+          <div className='flex nameuser' style={{ cursor: "pointer" }} onClick={() => props.setProfileId(props.post?.userId?._id)}>
+            <p className='font-bold'>{props.post?.userId?.name}</p>
+            <p style={{ color: "grey" }}>@{props.post.userId?.username}</p>
+          </div>
           <p>{props.post.content}</p>
-                  {props.post?.tweetType=='image'?<img style={{ height:"400px", width: "800px" ,marginTop:"10px" , borderRadius:"2%" }} src={props.post?.contentUrl}></img>:null}
-            <div className='flex mt-5 justify-between bottomBar'>
-                <div  style={{gap:"50px"}}className='flex '>
-                    <div style={{gap:"8px"}}className='flex'>
-                {liked ? <FavoriteIcon style={{color:"red"}} onClick={() => {
-                                 setLiked(false);
-                                 setLikeCount(0);
-                                  props.unlikePost(props.post._id);
-                }}></FavoriteIcon> : <FavoriteBorderIcon onClick={() => {
-                                  setLikeCount(1);
-                                setLiked(true);
-                                  props.likePost(props.post._id);
-                              }}></FavoriteBorderIcon>}
-                           <p>{props.post?.likes?.length+likeCount}</p>
-                          
-                          </div>
-                          <div className='flex' style={{ gap: "8px" }}>
-            <ChatBubbleOutlineIcon></ChatBubbleOutlineIcon>
-            <p>{props.post?.comments?.length}</p>
-                          </div>
-                      </div>
-                    <div style={{gap:"10px"}}className='flex items-center'>
-                      {props.isEditable?<button style={{color:"white"}}onClick={()=>{}}><EditIcon onClick={()=>{
-                        handleUpdateTweet();
-                      }}/></button>:null}
-                      {!bookmarked?
-            <BookmarkBorderIcon onClick={()=>{
-
-              axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/bookmark/${props.post?._id}`).then((res)=>{
-                console.log("Bookmarked");
-                console.log(res.data);
-
-              setBookmarked(true);
-            })}}></BookmarkBorderIcon>:
-              <BookmarkIcon style={{ color:"#1d9bf0"}} onClick={()=>{
-                axios().post(`${import.meta.env.VITE_API_BASE_URL}/tweets/unbookmark/${props.post?._id}`).then((res)=>{
-                  console.log("Unbookmarked");
-                  console.log(res.data);
-                  setBookmarked(false);
-                })
-                setBookmarked(false);
-              }}></BookmarkIcon>
-
-         
-            }
+          {props.post?.tweetType === 'image' && (
+            <img
+              style={{ height: "400px", width: "800px", marginTop: "10px", borderRadius: "2%" }}
+              src={props.post?.contentUrl}
+              alt="Tweet content"
+            />
+          )}
+          <div className='flex mt-5 justify-between bottomBar'>
+            <div className='flex' style={{ gap: "50px" }}>
+              <div className='flex' style={{ gap: "8px" }}>
+                {likes.includes(props.user?._id)
+                  ? <FavoriteIcon style={{ color: "red" }} onClick={handleLike} />
+                  : <FavoriteBorderIcon onClick={handleLike} />}
+                <p>{likes.length}</p>
+              </div>
+              <div className='flex' style={{ gap: "8px" }}>
+                <ChatBubbleOutlineIcon />
+                <p>{props.post?.comments?.length}</p>
+              </div>
+            </div>
+            <div className='flex items-center' style={{ gap: "10px" }}>
+              {props.isEditable && (
+                <button style={{ color: "white" }} onClick={openModal}>
+                  <EditIcon />
+                </button>
+              )}
+              {bookmarked
+                ? <BookmarkIcon style={{ color: "#1d9bf0" }} onClick={handleBookmark} />
+                : <BookmarkBorderIcon onClick={handleBookmark} />}
               <Modal
                 isOpen={modalIsOpen}
-                onAfterOpen={afterOpenModal}
                 onRequestClose={closeModal}
                 style={customStyles}
-                contentLabel="Edit Profile"
+                contentLabel="Edit Tweet"
               >
-
-              <div style={{height:"50%",width:"100%",backgroundColor:"grey"}}>
-                <textarea value={tweet} placeholder='Edit your tweet' style={{height:"100%",width:"100%",color:"black"}} onChange={(e)=>{
-                    setTweet(e.target.value); 
-                }}></textarea>
-                <div style={{width:"100%",gap:"10px"}} className='flex'>
-                  <button style={{backgroundColor:"white",color:"black",padding:"2%",width:"100px" , borderRadius:"200px"}} onClick={()=>{
-                    handleUpdateTweet2();
-                  }}>Update</button>
-                    <button style={{ backgroundColor: "white", color: "black", padding: "2%", width: "100px", borderRadius: "200px" }}
-                    onClick={()=>{
-                      handleDeleteTweet();
-                    }}> Delete</button>
+                <div style={{ height: "50%", width: "100%", backgroundColor: "grey" }}>
+                  <textarea
+                    value={tweet}
+                    placeholder='Edit your tweet'
+                    style={{ height: "100%", width: "100%", color: "black" }}
+                    onChange={(e) => setTweet(e.target.value)}
+                  />
+                  <div className='flex' style={{ width: "100%", gap: "10px" }}>
+                    <button
+                      style={{ backgroundColor: "white", color: "black", padding: "2%", width: "100px", borderRadius: "200px" }}
+                      onClick={handleUpdateTweet}
+                    >
+                      Update
+                    </button>
+                    <button
+                      style={{ backgroundColor: "white", color: "black", padding: "2%", width: "100px", borderRadius: "200px" }}
+                      onClick={handleDeleteTweet}
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
-              </div>
-
               </Modal>
             </div>
-            </div>
-              </div>
           </div>
-          <ToastContainer/>
+        </div>
+      </div>
+      <ToastContainer />
     </div>
-
-  )
+  );
 }

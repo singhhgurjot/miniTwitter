@@ -39,7 +39,7 @@ export default function mainPageNav(props){
             props.setIsProfile(false);
             props.setProfileId(null);
             props.setIs
-            axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getFollowersTweets`).then((res) => {
+            axios().get(`${import.meta.env.VITE_API_BASE_URL}/tweets/getAllTweets`).then((res) => {
                 console.log("POSTS LIST", res.data.tweets);
                 props.setPosts(res.data.tweets);
             })

@@ -44,7 +44,7 @@ export default function mainPageCenter(props) {
         setTweetImage={props.setTweetImage}
        tweetType={props.tweetType} setTweetType={props.setTweetType} user={props.user} handleSubmit={props.handleSubmit}/>
       {props.posts?.map((post,index)=>{
-        return <Tweet profileId={props.profileId} setProfileId={props.setProfileId} isProfile={props.isProfile} setIsProfile={props.setIsProfile}  user={props.user} key={index} post={post} likePost={props.likePost} unlikePost={props.unlikePost}></Tweet>
+        return <Tweet setUser={props.setUser}profileId={props.profileId} setProfileId={props.setProfileId} isProfile={props.isProfile} setIsProfile={props.setIsProfile}  user={props.user} key={index} post={post} likePost={props.likePost} unlikePost={props.unlikePost}></Tweet>
       } )}
       
     </div>

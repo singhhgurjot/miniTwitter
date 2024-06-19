@@ -157,7 +157,7 @@ const [bio,setBio]=useState("");
             
             return(
                 
-             <Tweet  isEditable={true} user={props.user} key={index} post={post} likePost={props.likePost} unlikePost={props.unlikePost}></Tweet>
+             <Tweet  setUser={props.setUser}isEditable={true} user={props.user} key={index} post={post} likePost={props.likePost} unlikePost={props.unlikePost}></Tweet>
             )
         }
         else{
